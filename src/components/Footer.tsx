@@ -10,7 +10,7 @@ const Footer = () => {
               <div className="bg-gradient-primary p-2 rounded-lg">
                 <Zap className="w-6 h-6 text-primary-foreground" />
               </div>
-              <span className="text-2xl font-bold">EnergoDeals.gr</span>
+              <span className="text-2xl font-bold">Revma Prosfores Online</span>
             </div>
             <p className="text-background/80 mb-6 leading-relaxed">
               Η πρώτη αμερόληπτη πλατφόρμα σύγκρισης τιμών ρεύματος στην Ελλάδα. 
@@ -23,7 +23,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4" />
-                <span>210 123 4567</span>
+                <span>217.000.3200</span>
               </div>
             </div>
           </div>
