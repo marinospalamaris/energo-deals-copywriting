@@ -24,14 +24,34 @@ const HeroSection = () => {
           100% αντικειμενική σύγκριση με το πραγματικό κόστος.
         </p>
         
-        <div className="mt-8 max-w-4xl mx-auto">
+        <div className="mt-8 max-w-4xl mx-auto bg-white/10 p-6 rounded-xl backdrop-blur-sm">
           <iframe
             src="https://bestenergydeals.gr/form-page/?source=lovable"
             width="100%"
             height="800"
-            style={{border: 'none', overflow: 'auto'}}
+            style={{
+              border: 'none', 
+              overflow: 'auto',
+              backgroundColor: 'white',
+              borderRadius: '8px'
+            }}
             title="Φόρμα Σύγκρισης Ρεύματος"
-          />
+            loading="lazy"
+            allowFullScreen
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          >
+            <p className="text-white text-center">
+              Η φόρμα φορτώνει... Αν δεν εμφανιστεί, 
+              <a 
+                href="https://bestenergydeals.gr/form-page/?source=lovable" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-accent underline ml-1"
+              >
+                κάντε κλικ εδώ
+              </a>
+            </p>
+          </iframe>
         </div>
         
         <p className="text-sm mt-4 opacity-75">
