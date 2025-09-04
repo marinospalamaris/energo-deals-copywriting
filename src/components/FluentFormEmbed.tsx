@@ -16,25 +16,28 @@ const FluentFormEmbed = ({ className = "" }: FluentFormEmbedProps) => {
 
   // Deadman timer - fallback if iframe doesn't load within 2 seconds
   useEffect(() => {
+    console.log('FluentForm: Component mounted, starting deadman timer');
     const timer = setTimeout(() => {
       if (isLoading) {
         console.log('FluentForm: Deadman timer activated - iframe took too long to load');
+        console.log('FluentForm: Likely blocked by X-Frame-Options or CSP headers');
         setIsLoading(false);
         setShowFallback(true);
       }
-    }, 2000);
+    }, 1500); // Reduced to 1.5 seconds for faster fallback
 
     return () => clearTimeout(timer);
   }, [isLoading]);
 
   const handleIframeLoad = () => {
+    console.log('FluentForm: Iframe loaded successfully');
     setIsLoading(false);
   };
 
   const handleIframeError = () => {
+    console.log('FluentForm: Iframe failed to load - onError triggered');
     setIsLoading(false);
     setHasError(true);
-    console.log('FluentForm: Iframe failed to load');
   };
 
   const openInNewTab = () => {
@@ -63,24 +66,31 @@ const FluentFormEmbed = ({ className = "" }: FluentFormEmbedProps) => {
 
         {/* Error State or Fallback */}
         {(hasError || showFallback) && (
-          <div className="absolute inset-6 z-10 flex flex-col items-center justify-center text-center">
-            <div className="bg-white/20 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold text-primary-foreground mb-4">
-                {hasError ? "Πρόβλημα φόρτωσης φόρμας" : "Δυσκολία φόρτωσης;"}
-              </h3>
-              <p className="text-primary-foreground/80 mb-6">
-                {hasError 
-                  ? "Η φόρμα δεν μπόρεσε να φορτωθεί στη σελίδα. Κάντε κλικ παρακάτω για να τη δείτε σε νέα καρτέλα."
-                  : "Φαίνεται ότι η φόρμα καθυστερεί να φορτώσει. Κάντε κλικ για να τη δείτε σε νέα καρτέλα."
-                }
-              </p>
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center bg-white/95 backdrop-blur-sm rounded-xl">
+            <div className="max-w-md mx-auto p-8">
+              <div className="mb-6">
+                <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <ExternalLink className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-2xl font-bold text-foreground mb-3">
+                  Συνέχεια στη Φόρμα
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  Για την ασφάλειά σας, η φόρμα ανοίγει σε νέα καρτέλα. 
+                  Κάντε κλικ παρακάτω για να συνεχίσετε τη σύγκριση.
+                </p>
+              </div>
               <Button 
                 onClick={openInNewTab}
-                className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+                size="lg"
+                className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold w-full"
               >
-                <ExternalLink className="w-4 h-4 mr-2" />
-                Ανοίξτε τη Φόρμα
+                <ExternalLink className="w-5 h-5 mr-2" />
+                Ξεκινήστε τη Σύγκριση
               </Button>
+              <p className="text-xs text-muted-foreground mt-4">
+                🔒 Ασφαλής σύνδεση • ⚡ Αποτελέσματα σε 30 δευτερόλεπτα
+              </p>
             </div>
           </div>
         )}
