@@ -25,7 +25,7 @@ const HeroSection = () => {
           100% αντικειμενική σύγκριση με το πραγματικό κόστος.
         </p>
         
-        <div className="mt-8 max-w-4xl mx-auto">
+        <div id="form-section" className="mt-8 max-w-4xl mx-auto">
           <FluentFormEmbed />
         </div>
         

@@ -27,7 +27,10 @@ const Header = () => {
             </a>
           </nav>
 
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+          <Button 
+            onClick={() => document.getElementById('form-section')?.scrollIntoView({ behavior: 'smooth' })}
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
+          >
             Σύγκρινε Τώρα
           </Button>
         </div>

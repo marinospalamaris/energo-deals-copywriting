@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
@@ -10,8 +10,22 @@ interface FluentFormEmbedProps {
 const FluentFormEmbed = ({ className = "" }: FluentFormEmbedProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [showFallback, setShowFallback] = useState(false);
   
-  const formUrl = "https://bestenergydeals.gr/?ff_landing=6&embedded=1";
+  const formUrl = "https://bestenergydeals.gr/?ff_landing=6&embedded=1&utm_source=comparison&utm_medium=embed";
+
+  // Deadman timer - fallback if iframe doesn't load within 2 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (isLoading) {
+        console.log('FluentForm: Deadman timer activated - iframe took too long to load');
+        setIsLoading(false);
+        setShowFallback(true);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [isLoading]);
 
   const handleIframeLoad = () => {
     setIsLoading(false);
@@ -20,6 +34,7 @@ const FluentFormEmbed = ({ className = "" }: FluentFormEmbedProps) => {
   const handleIframeError = () => {
     setIsLoading(false);
     setHasError(true);
+    console.log('FluentForm: Iframe failed to load');
   };
 
   const openInNewTab = () => {
@@ -27,11 +42,7 @@ const FluentFormEmbed = ({ className = "" }: FluentFormEmbedProps) => {
   };
 
   return (
-    <div className={`relative ${className}`}>
-      {/* Preconnect for faster loading */}
-      <link rel="preconnect" href="https://bestenergydeals.gr" />
-      <link rel="dns-prefetch" href="https://bestenergydeals.gr" />
-      
+    <div className={`relative ${className}`}>      
       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 relative overflow-hidden">
         {/* Loading Skeleton */}
         {isLoading && (
@@ -50,15 +61,18 @@ const FluentFormEmbed = ({ className = "" }: FluentFormEmbedProps) => {
           </div>
         )}
 
-        {/* Error State */}
-        {hasError && (
+        {/* Error State or Fallback */}
+        {(hasError || showFallback) && (
           <div className="absolute inset-6 z-10 flex flex-col items-center justify-center text-center">
             <div className="bg-white/20 p-6 rounded-lg">
               <h3 className="text-xl font-semibold text-primary-foreground mb-4">
-                Πρόβλημα φόρτωσης φόρμας
+                {hasError ? "Πρόβλημα φόρτωσης φόρμας" : "Δυσκολία φόρτωσης;"}
               </h3>
               <p className="text-primary-foreground/80 mb-6">
-                Η φόρμα δεν μπόρεσε να φορτωθεί στη σελίδα. Κάντε κλικ παρακάτω για να τη δείτε σε νέα καρτέλα.
+                {hasError 
+                  ? "Η φόρμα δεν μπόρεσε να φορτωθεί στη σελίδα. Κάντε κλικ παρακάτω για να τη δείτε σε νέα καρτέλα."
+                  : "Φαίνεται ότι η φόρμα καθυστερεί να φορτώσει. Κάντε κλικ για να τη δείτε σε νέα καρτέλα."
+                }
               </p>
               <Button 
                 onClick={openInNewTab}
@@ -86,7 +100,7 @@ const FluentFormEmbed = ({ className = "" }: FluentFormEmbedProps) => {
           loading="lazy"
           onLoad={handleIframeLoad}
           onError={handleIframeError}
-          sandbox="allow-forms allow-scripts allow-same-origin"
+          allow="forms payment"
         />
 
         {/* Trust indicators and fallback */}
