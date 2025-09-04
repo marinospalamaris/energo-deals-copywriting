@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
-import FluentFormEmbed from "@/components/FluentFormEmbed";
 
 const HeroSection = () => {
   return (
@@ -25,8 +24,19 @@ const HeroSection = () => {
           100% αντικειμενική σύγκριση με το πραγματικό κόστος.
         </p>
         
-        <div id="form-section" className="mt-8 max-w-4xl mx-auto">
-          <FluentFormEmbed />
+        <div id="form-section" className="mt-8">
+          <Button 
+            onClick={() => window.open('https://bestenergydeals.gr/?ff_landing=6&utm_source=comparison&utm_medium=cta', '_blank', 'noopener,noreferrer')}
+            size="lg"
+            className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-xl px-12 py-4 rounded-xl shadow-glow transition-all duration-300 hover:scale-105"
+          >
+            <Zap className="w-6 h-6 mr-3" />
+            Ξεκινήστε τη Σύγκριση Τώρα
+          </Button>
+          
+          <p className="text-primary-foreground/80 text-lg mt-6 max-w-2xl mx-auto">
+            🔒 <strong>100% Ασφαλής</strong> • ⚡ <strong>Αποτελέσματα σε 30 δευτερόλεπτα</strong> • ✅ <strong>Χωρίς κρυφά κόστη</strong>
+          </p>
         </div>
         
         <p className="text-sm mt-4 opacity-75">
