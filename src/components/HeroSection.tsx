@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-energy overflow-hidden">
       {/* Background decoration */}
@@ -26,7 +29,7 @@ const HeroSection = () => {
         
         <div id="form-section" className="mt-8">
           <Button 
-            onClick={() => window.location.href = '/start-comparison'}
+            onClick={() => navigate('/start-comparison')}
             size="lg"
             className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-xl px-12 py-4 rounded-xl shadow-glow transition-all duration-300 hover:scale-105"
           >
