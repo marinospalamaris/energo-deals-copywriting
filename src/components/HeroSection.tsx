@@ -26,7 +26,7 @@ const HeroSection = () => {
         
         <div id="form-section" className="mt-8">
           <Button 
-            onClick={() => window.open('https://bestenergydeals.gr/?ff_landing=6&utm_source=comparison&utm_medium=cta', '_blank', 'noopener,noreferrer')}
+            onClick={() => window.open('/start-comparison', '_blank', 'noopener,noreferrer')}
             size="lg"
             className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-xl px-12 py-4 rounded-xl shadow-glow transition-all duration-300 hover:scale-105"
           >
