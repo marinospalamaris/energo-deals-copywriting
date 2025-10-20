@@ -65,6 +65,13 @@ const ChartContainer = React.forwardRef<
 })
 ChartContainer.displayName = "Chart"
 
+/**
+ * SECURITY WARNING: This component uses dangerouslySetInnerHTML to inject CSS.
+ * The config prop MUST NEVER accept user input or external data.
+ * Only use controlled, developer-defined ChartConfig objects.
+ * 
+ * If you need dynamic colors, use React's style prop or CSS-in-JS instead.
+ */
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
     ([_, config]) => config.theme || config.color
@@ -72,6 +79,11 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
 
   if (!colorConfig.length) {
     return null
+  }
+
+  // Validate that colors are in safe format (hex, rgb, hsl, or CSS variables)
+  const isSafeColor = (color: string) => {
+    return /^(#[0-9A-Fa-f]{3,8}|rgb|hsl|var\(--[\w-]+\))/.test(color)
   }
 
   return (
@@ -86,7 +98,8 @@ ${colorConfig
     const color =
       itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
       itemConfig.color
-    return color ? `  --color-${key}: ${color};` : null
+    // Security: Only inject validated color values
+    return color && isSafeColor(color) ? `  --color-${key}: ${color};` : null
   })
   .join("\n")}
 }

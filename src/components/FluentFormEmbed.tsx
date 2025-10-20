@@ -16,11 +16,8 @@ const FluentFormEmbed = ({ className = "" }: FluentFormEmbedProps) => {
 
   // Deadman timer - fallback if iframe doesn't load within 2 seconds
   useEffect(() => {
-    console.log('FluentForm: Component mounted, starting deadman timer');
     const timer = setTimeout(() => {
       if (isLoading) {
-        console.log('FluentForm: Deadman timer activated - iframe took too long to load');
-        console.log('FluentForm: Likely blocked by X-Frame-Options or CSP headers');
         setIsLoading(false);
         setShowFallback(true);
       }
@@ -30,12 +27,10 @@ const FluentFormEmbed = ({ className = "" }: FluentFormEmbedProps) => {
   }, [isLoading]);
 
   const handleIframeLoad = () => {
-    console.log('FluentForm: Iframe loaded successfully');
     setIsLoading(false);
   };
 
   const handleIframeError = () => {
-    console.log('FluentForm: Iframe failed to load - onError triggered');
     setIsLoading(false);
     setHasError(true);
   };
